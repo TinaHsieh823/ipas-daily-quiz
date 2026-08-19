@@ -4,15 +4,211 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>iPAS AI 每日一題練習庫</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, "Noto Sans TC", sans-serif;
+      background: #f5f7fb;
+      color: #222;
+      line-height: 1.6;
+    }
+
+    header {
+      background: #24324a;
+      color: white;
+      padding: 48px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0 0 10px;
+      font-size: 2rem;
+    }
+
+    header p {
+      margin: 0;
+      color: #d7deea;
+    }
+
+    main {
+      width: min(1100px, 92%);
+      margin: 40px auto;
+    }
+
+    .section-title {
+      margin: 42px 0 18px;
+      font-size: 1.4rem;
+      border-left: 5px solid #4d6fa9;
+      padding-left: 12px;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 14px;
+      padding: 22px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+    }
+
+    .card h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 1.1rem;
+    }
+
+    .meta {
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 14px;
+    }
+
+    .tag {
+      display: inline-block;
+      background: #edf2fb;
+      color: #34527d;
+      padding: 4px 9px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      margin: 0 5px 5px 0;
+    }
+
+    .button {
+      display: inline-block;
+      margin-top: 14px;
+      background: #315f9e;
+      color: white;
+      text-decoration: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+    }
+
+    .button:hover {
+      background: #254b7e;
+    }
+
+    footer {
+      margin-top: 60px;
+      padding: 24px 20px;
+      text-align: center;
+      color: #777;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 600px) {
+      header {
+        padding: 36px 18px;
+      }
+
+      header h1 {
+        font-size: 1.6rem;
+      }
+
+      main {
+        margin-top: 28px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-  <h1>iPAS AI 每日一題練習庫</h1>
+  <header>
+    <h1>iPAS AI 每日一題練習庫</h1>
+    <p>整理每日練習主題，依學習方向分類，方便快速複習與查找。</p>
+  </header>
 
-  <p>網站建置測試成功！</p>
+  <main>
 
-  <p>這裡未來會整理每天的 AI 練習題。</p>
+    <h2 class="section-title">模型評估與驗證</h2>
+
+    <div class="card-grid">
+
+      <div class="card">
+        <h3>K-Fold vs LOOCV</h3>
+
+        <div class="meta">
+          出題者：Tina<br>
+          日期：2026/08/17
+        </div>
+
+        <div>
+          <span class="tag">交叉驗證</span>
+          <span class="tag">模型評估</span>
+          <span class="tag">易混淆</span>
+        </div>
+
+        <a class="button"
+           href="https://claude.ai/public/artifacts/499711c7-bd1d-448d-8d64-9f49c0481c5d"
+           target="_blank">
+          開始練習
+        </a>
+      </div>
+
+      <div class="card">
+        <h3>混淆矩陣</h3>
+
+        <div class="meta">
+          出題者：待補<br>
+          日期：待補
+        </div>
+
+        <div>
+          <span class="tag">分類模型</span>
+          <span class="tag">TP TN FP FN</span>
+          <span class="tag">模型評估</span>
+        </div>
+
+        <a class="button"
+           href="#"
+           onclick="alert('這一題的連結之後再補上'); return false;">
+          尚未加入
+        </a>
+      </div>
+
+    </div>
+
+
+    <h2 class="section-title">資料處理與機器學習</h2>
+
+    <div class="card-grid">
+
+      <div class="card">
+        <h3>SMOTE</h3>
+
+        <div class="meta">
+          出題者：待補<br>
+          日期：待補
+        </div>
+
+        <div>
+          <span class="tag">資料不平衡</span>
+          <span class="tag">機器學習</span>
+        </div>
+
+        <a class="button"
+           href="#"
+           onclick="alert('這一題的連結之後再補上'); return false;">
+          尚未加入
+        </a>
+      </div>
+
+    </div>
+
+  </main>
+
+  <footer>
+    iPAS AI 每日一題練習庫｜學習交流用途
+  </footer>
 
 </body>
 </html>
