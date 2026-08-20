@@ -117,6 +117,83 @@
         margin-top: 28px;
       }
     }
+.thumb-image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 16px;
+  cursor: pointer;
+  display: block;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.thumb-image:hover {
+  transform: scale(1.01);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+.lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.82);
+  z-index: 9999;
+  padding: 24px;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox.show {
+  display: flex;
+}
+
+.lightbox-content {
+  position: relative;
+  max-width: min(1100px, 92vw);
+  width: 100%;
+}
+
+.lightbox-content img {
+  width: 100%;
+  max-height: 85vh;
+  object-fit: contain;
+  display: block;
+  border-radius: 12px;
+  background: white;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: -14px;
+  right: -14px;
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #222;
+  font-size: 1.5rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+
+.lightbox-close:hover {
+  background: #f0f0f0;
+}
+
+@media (max-width: 600px) {
+  .lightbox {
+    padding: 14px;
+  }
+
+  .lightbox-close {
+    top: -10px;
+    right: -10px;
+    width: 38px;
+    height: 38px;
+  }
+}
   </style>
 </head>
 
@@ -135,19 +212,12 @@
 
 <div class="card">
 
-  <img
-    src="images/2026-08-21-kfold-loocv.png"
-    alt="K-Fold vs LOOCV 資訊圖卡"
-    style="
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      object-fit: cover;
-      border-radius: 10px;
-      margin-bottom: 16px;
-      cursor: pointer;
-    "
-    onclick="window.open(this.src, '_blank')"
-  >
+<img
+  src="images/2026-08-21-kfold-loocv.png"
+  alt="K-Fold vs LOOCV 資訊圖卡"
+  class="thumb-image"
+  data-full="images/2026-08-21-kfold-loocv.png"
+>
 
   <h3>K-Fold vs LOOCV</h3>
 
@@ -168,12 +238,6 @@
     開始練習
   </a>
 
-  <a class="button"
-     href="images/2026-08-21-kfold-loocv.png"
-     target="_blank"
-     style="background:#6b7280;">
-    查看圖卡
-  </a>
 
 </div>
 
@@ -233,5 +297,53 @@
     iPAS AI 每日一題練習庫｜學習交流用途
   </footer>
 
+  <div id="lightbox" class="lightbox" onclick="closeLightbox(event)">
+  <div class="lightbox-content">
+    <button
+      class="lightbox-close"
+      type="button"
+      aria-label="關閉圖片"
+      onclick="closeLightbox(event)">
+      ×
+    </button>
+
+    <img id="lightbox-image" src="" alt="">
+  </div>
+</div>
+
+<script>
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImage = document.getElementById('lightbox-image');
+
+  document.querySelectorAll('.thumb-image').forEach((img) => {
+    img.addEventListener('click', () => {
+      lightboxImage.src = img.dataset.full || img.src;
+      lightboxImage.alt = img.alt || '';
+      lightbox.classList.add('show');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  function closeLightbox(event) {
+    const clickedBackground = event.target === lightbox;
+    const clickedCloseButton = event.target.classList.contains('lightbox-close');
+
+    if (clickedBackground || clickedCloseButton) {
+      lightbox.classList.remove('show');
+      lightboxImage.src = '';
+      lightboxImage.alt = '';
+      document.body.style.overflow = '';
+    }
+  }
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && lightbox.classList.contains('show')) {
+      lightbox.classList.remove('show');
+      lightboxImage.src = '';
+      lightboxImage.alt = '';
+      document.body.style.overflow = '';
+    }
+  });
+</script>
 </body>
 </html>
