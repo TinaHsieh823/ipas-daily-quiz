@@ -194,6 +194,31 @@
     height: 38px;
   }
 }
+/* 燈箱圖片可再次放大 */
+.lightbox-content img {
+  cursor: zoom-in;
+  transition: transform 0.25s ease;
+  transform-origin: center center;
+}
+
+/* 放大狀態 */
+.lightbox-content img.zoomed {
+  transform: scale(1.8);
+  cursor: zoom-out;
+}
+
+/* 圖片放大時，允許燈箱區域捲動查看 */
+.lightbox.zoom-mode {
+  overflow: auto;
+  align-items: flex-start;
+}
+
+/* 手機版不要放得太誇張 */
+@media (max-width: 600px) {
+  .lightbox-content img.zoomed {
+    transform: scale(1.5);
+  }
+}
   </style>
 </head>
 
@@ -317,32 +342,79 @@
 
   document.querySelectorAll('.thumb-image').forEach((img) => {
     img.addEventListener('click', () => {
+
       lightboxImage.src = img.dataset.full || img.src;
       lightboxImage.alt = img.alt || '';
+
+      lightboxImage.classList.remove('zoomed');
+      lightbox.classList.remove('zoom-mode');
+
       lightbox.classList.add('show');
+
       document.body.style.overflow = 'hidden';
     });
   });
 
+
+  /* 點擊燈箱中的圖片：放大 / 恢復 */
+  lightboxImage.addEventListener('click', (event) => {
+
+    event.stopPropagation();
+
+    const isZoomed = lightboxImage.classList.toggle('zoomed');
+
+    if (isZoomed) {
+      lightbox.classList.add('zoom-mode');
+    } else {
+      lightbox.classList.remove('zoom-mode');
+      lightbox.scrollTop = 0;
+      lightbox.scrollLeft = 0;
+    }
+
+  });
+
+
   function closeLightbox(event) {
+
     const clickedBackground = event.target === lightbox;
-    const clickedCloseButton = event.target.classList.contains('lightbox-close');
+
+    const clickedCloseButton =
+      event.target.classList.contains('lightbox-close');
 
     if (clickedBackground || clickedCloseButton) {
+
       lightbox.classList.remove('show');
+      lightbox.classList.remove('zoom-mode');
+
+      lightboxImage.classList.remove('zoomed');
+
       lightboxImage.src = '';
       lightboxImage.alt = '';
+
       document.body.style.overflow = '';
     }
   }
 
+
+  /* 按 ESC 關閉燈箱 */
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && lightbox.classList.contains('show')) {
+
+    if (
+      event.key === 'Escape' &&
+      lightbox.classList.contains('show')
+    ) {
+
       lightbox.classList.remove('show');
+      lightbox.classList.remove('zoom-mode');
+
+      lightboxImage.classList.remove('zoomed');
+
       lightboxImage.src = '';
       lightboxImage.alt = '';
+
       document.body.style.overflow = '';
     }
+
   });
 </script>
 </body>
