@@ -255,14 +255,22 @@
     title: "K-Fold vs LOOCV",
     author: "Tina",
     date: "2026-08-21",
-    category: "模型評估與驗證",
+    category: "模型訓練與評估",
     tags: ["交叉驗證", "模型評估", "易混淆"],
     image: "images/2026-08-21-kfold-loocv.png",
     quizUrl: "https://claude.ai/public/artifacts/499711c7-bd1d-448d-8d64-9f49c0481c5d"
   }
 ];
 
-
+  const categoryOrder = [
+  "AI 基礎概念",
+  "資料處理與特徵工程",
+  "模型訓練與評估",
+  "機器學習與深度學習模型",
+  "生成式 AI 與應用",
+  "AI 治理、倫理與實務"
+];
+  
   const library = document.getElementById('quiz-library');
   function createCard(item) {
   const card = document.createElement('div');
@@ -372,7 +380,12 @@
   });
 
 
-  Object.entries(grouped).forEach(([category, items]) => {
+  categoryOrder.forEach((category) => {
+  const items = grouped[category];
+
+  if (!items || items.length === 0) {
+    return;
+  }
 
     const sectionTitle = document.createElement('h2');
     sectionTitle.className = 'section-title';
