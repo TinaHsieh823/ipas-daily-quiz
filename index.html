@@ -264,111 +264,138 @@
 
 
   const library = document.getElementById('quiz-library');
+  function createCard(item) {
+  const card = document.createElement('div');
+  card.className = 'card';
 
 
-  function renderLibrary() {
-    const grouped = {};
+  let imageHtml = '';
 
-    questions.forEach((item) => {
-      if (!grouped[item.category]) {
-        grouped[item.category] = [];
-      }
-
-      grouped[item.category].push(item);
-    });
-
-Object.values(grouped).forEach((items) => {
-  items.sort((a, b) => new Date(b.date) - new Date(a.date));
-});
-
-    Object.entries(grouped).forEach(([category, items]) => {
-      const sectionTitle = document.createElement('h2');
-      sectionTitle.className = 'section-title';
-      sectionTitle.textContent = category;
-
-      library.appendChild(sectionTitle);
-
-
-      const grid = document.createElement('div');
-      grid.className = 'card-grid';
-
-
-      items.forEach((item) => {
-        const card = document.createElement('div');
-        card.className = 'card';
-
-
-        let imageHtml = '';
-
-        if (item.image) {
-          imageHtml = `
-            <img
-              src="${item.image}"
-              alt="${item.title} 資訊圖卡"
-              class="thumb-image"
-              data-full="${item.image}"
-            >
-          `;
-        }
-
-
-        const tagsHtml = item.tags
-          .map((tag) => `<span class="tag">${tag}</span>`)
-          .join('');
-
-
-        let buttonHtml = '';
-
-        if (item.quizUrl) {
-          buttonHtml = `
-            <a
-              class="button"
-              href="${item.quizUrl}"
-              target="_blank"
-              rel="noopener noreferrer">
-              開始練習
-            </a>
-          `;
-        } else {
-          buttonHtml = `
-            <span
-              class="button"
-              style="background:#9ca3af; cursor:default;">
-              尚未加入
-            </span>
-          `;
-        }
-
-
-        card.innerHTML = `
-          ${imageHtml}
-
-          <h3>${item.title}</h3>
-
-          <div class="meta">
-            出題者：${item.author}<br>
-            日期：${item.date.replaceAll('-', '/')}
-          </div>
-
-          <div>
-            ${tagsHtml}
-          </div>
-
-          ${buttonHtml}
-        `;
-
-
-        grid.appendChild(card);
-      });
-
-
-      library.appendChild(grid);
-    });
-
-
-    bindLightboxEvents();
+  if (item.image) {
+    imageHtml = `
+      <img
+        src="${item.image}"
+        alt="${item.title} 資訊圖卡"
+        class="thumb-image"
+        data-full="${item.image}"
+      >
+    `;
   }
 
+
+  const tagsHtml = item.tags
+    .map((tag) => `<span class="tag">${tag}</span>`)
+    .join('');
+
+
+  const buttonHtml = `
+    <a
+      class="button"
+      href="${item.quizUrl}"
+      target="_blank"
+      rel="noopener noreferrer">
+      開始練習
+    </a>
+  `;
+
+
+  card.innerHTML = `
+    ${imageHtml}
+
+    <h3>${item.title}</h3>
+
+    <div class="meta">
+      出題者：${item.author}<br>
+      日期：${item.date.replaceAll('-', '/')}
+    </div>
+
+    <div>
+      ${tagsHtml}
+    </div>
+
+    ${buttonHtml}
+  `;
+
+
+  return card;
+}
+
+  function renderLibrary() {
+
+  /* =========================
+     最新每日一詞
+     ========================= */
+
+  const latestTitle = document.createElement('h2');
+  latestTitle.className = 'section-title';
+  latestTitle.textContent = '最新每日一詞';
+
+  library.appendChild(latestTitle);
+
+
+  const latestGrid = document.createElement('div');
+  latestGrid.className = 'card-grid';
+
+
+  const latestQuestions = [...questions]
+    .sort((a, b) => new Date(b.date) - new Date(a.date))
+    .slice(0, 3);
+
+
+  latestQuestions.forEach((item) => {
+    latestGrid.appendChild(createCard(item));
+  });
+
+
+  library.appendChild(latestGrid);
+
+
+
+  /* =========================
+     依主題分類
+     ========================= */
+
+  const grouped = {};
+
+
+  questions.forEach((item) => {
+    if (!grouped[item.category]) {
+      grouped[item.category] = [];
+    }
+
+    grouped[item.category].push(item);
+  });
+
+
+  Object.values(grouped).forEach((items) => {
+    items.sort((a, b) => new Date(b.date) - new Date(a.date));
+  });
+
+
+  Object.entries(grouped).forEach(([category, items]) => {
+
+    const sectionTitle = document.createElement('h2');
+    sectionTitle.className = 'section-title';
+    sectionTitle.textContent = category;
+
+    library.appendChild(sectionTitle);
+
+
+    const grid = document.createElement('div');
+    grid.className = 'card-grid';
+
+
+    items.forEach((item) => {
+      grid.appendChild(createCard(item));
+    });
+
+
+    library.appendChild(grid);
+  });
+
+
+  bindLightboxEvents();
+}
 
   const lightbox = document.getElementById('lightbox');
   const lightboxImage = document.getElementById('lightbox-image');
