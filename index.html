@@ -229,95 +229,7 @@
     <p>彙整 360d才庫 iPAS AI黃金考證班群組中，由 Ken 老師與學長姐分享的每日一詞（Tina 的網頁製作練習）</p>
   </header>
 
-  <main>
-
-    <h2 class="section-title">模型評估與驗證</h2>
-
-    <div class="card-grid">
-
-<div class="card">
-
-<img
-  src="images/2026-08-21-kfold-loocv.png"
-  alt="K-Fold vs LOOCV 資訊圖卡"
-  class="thumb-image"
-  data-full="images/2026-08-21-kfold-loocv.png"
->
-
-  <h3>K-Fold vs LOOCV</h3>
-
-  <div class="meta">
-    出題者：Tina<br>
-    日期：2026/08/21
-  </div>
-
-  <div>
-    <span class="tag">交叉驗證</span>
-    <span class="tag">模型評估</span>
-    <span class="tag">易混淆</span>
-  </div>
-
-<a class="button"
-   href="https://claude.ai/public/artifacts/499711c7-bd1d-448d-8d64-9f49c0481c5d"
-   target="_blank"
-   rel="noopener noreferrer">
-  開始練習
-</a>
-
-
-</div>
-
-      <div class="card">
-        <h3>混淆矩陣</h3>
-
-        <div class="meta">
-          出題者：待補<br>
-          日期：待補
-        </div>
-
-        <div>
-          <span class="tag">分類模型</span>
-          <span class="tag">TP TN FP FN</span>
-          <span class="tag">模型評估</span>
-        </div>
-
-        <a class="button"
-           href="#"
-           onclick="alert('這一題的連結之後再補上'); return false;">
-          尚未加入
-        </a>
-      </div>
-
-    </div>
-
-
-    <h2 class="section-title">資料處理與機器學習</h2>
-
-    <div class="card-grid">
-
-      <div class="card">
-        <h3>SMOTE</h3>
-
-        <div class="meta">
-          出題者：待補<br>
-          日期：待補
-        </div>
-
-        <div>
-          <span class="tag">資料不平衡</span>
-          <span class="tag">機器學習</span>
-        </div>
-
-        <a class="button"
-           href="#"
-           onclick="alert('這一題的連結之後再補上'); return false;">
-          尚未加入
-        </a>
-      </div>
-
-    </div>
-
-  </main>
+<main id="quiz-library"></main>
 
   <footer>
     iPAS AI應用規劃師 每日一詞｜學習交流用途
@@ -338,28 +250,164 @@
 </div>
 
 <script>
+  const questions = [
+    {
+      title: "K-Fold vs LOOCV",
+      author: "Tina",
+      date: "2026/08/21",
+      category: "模型評估與驗證",
+      tags: ["交叉驗證", "模型評估", "易混淆"],
+      image: "images/2026-08-21-kfold-loocv.png",
+      quizUrl: "https://claude.ai/public/artifacts/499711c7-bd1d-448d-8d64-9f49c0481c5d"
+    },
+
+    {
+      title: "混淆矩陣",
+      author: "待補",
+      date: "待補",
+      category: "模型評估與驗證",
+      tags: ["分類模型", "TP TN FP FN", "模型評估"],
+      image: "",
+      quizUrl: ""
+    },
+
+    {
+      title: "SMOTE",
+      author: "待補",
+      date: "待補",
+      category: "資料處理與機器學習",
+      tags: ["資料不平衡", "機器學習"],
+      image: "",
+      quizUrl: ""
+    }
+  ];
+
+
+  const library = document.getElementById('quiz-library');
+
+
+  function renderLibrary() {
+    const grouped = {};
+
+    questions.forEach((item) => {
+      if (!grouped[item.category]) {
+        grouped[item.category] = [];
+      }
+
+      grouped[item.category].push(item);
+    });
+
+
+    Object.entries(grouped).forEach(([category, items]) => {
+      const sectionTitle = document.createElement('h2');
+      sectionTitle.className = 'section-title';
+      sectionTitle.textContent = category;
+
+      library.appendChild(sectionTitle);
+
+
+      const grid = document.createElement('div');
+      grid.className = 'card-grid';
+
+
+      items.forEach((item) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+
+
+        let imageHtml = '';
+
+        if (item.image) {
+          imageHtml = `
+            <img
+              src="${item.image}"
+              alt="${item.title} 資訊圖卡"
+              class="thumb-image"
+              data-full="${item.image}"
+            >
+          `;
+        }
+
+
+        const tagsHtml = item.tags
+          .map((tag) => `<span class="tag">${tag}</span>`)
+          .join('');
+
+
+        let buttonHtml = '';
+
+        if (item.quizUrl) {
+          buttonHtml = `
+            <a
+              class="button"
+              href="${item.quizUrl}"
+              target="_blank"
+              rel="noopener noreferrer">
+              開始練習
+            </a>
+          `;
+        } else {
+          buttonHtml = `
+            <span
+              class="button"
+              style="background:#9ca3af; cursor:default;">
+              尚未加入
+            </span>
+          `;
+        }
+
+
+        card.innerHTML = `
+          ${imageHtml}
+
+          <h3>${item.title}</h3>
+
+          <div class="meta">
+            出題者：${item.author}<br>
+            日期：${item.date}
+          </div>
+
+          <div>
+            ${tagsHtml}
+          </div>
+
+          ${buttonHtml}
+        `;
+
+
+        grid.appendChild(card);
+      });
+
+
+      library.appendChild(grid);
+    });
+
+
+    bindLightboxEvents();
+  }
+
+
   const lightbox = document.getElementById('lightbox');
   const lightboxImage = document.getElementById('lightbox-image');
 
-  document.querySelectorAll('.thumb-image').forEach((img) => {
-    img.addEventListener('click', () => {
 
-      lightboxImage.src = img.dataset.full || img.src;
-      lightboxImage.alt = img.alt || '';
+  function bindLightboxEvents() {
+    document.querySelectorAll('.thumb-image').forEach((img) => {
+      img.addEventListener('click', () => {
+        lightboxImage.src = img.dataset.full || img.src;
+        lightboxImage.alt = img.alt || '';
 
-      lightboxImage.classList.remove('zoomed');
-      lightbox.classList.remove('zoom-mode');
+        lightboxImage.classList.remove('zoomed');
+        lightbox.classList.remove('zoom-mode');
 
-      lightbox.classList.add('show');
-
-      document.body.style.overflow = 'hidden';
+        lightbox.classList.add('show');
+        document.body.style.overflow = 'hidden';
+      });
     });
-  });
+  }
 
 
-  /* 點擊燈箱中的圖片：放大 / 恢復 */
   lightboxImage.addEventListener('click', (event) => {
-
     event.stopPropagation();
 
     const isZoomed = lightboxImage.classList.toggle('zoomed');
@@ -371,19 +419,16 @@
       lightbox.scrollTop = 0;
       lightbox.scrollLeft = 0;
     }
-
   });
 
 
   function closeLightbox(event) {
-
     const clickedBackground = event.target === lightbox;
 
     const clickedCloseButton =
       event.target.classList.contains('lightbox-close');
 
     if (clickedBackground || clickedCloseButton) {
-
       lightbox.classList.remove('show');
       lightbox.classList.remove('zoom-mode');
 
@@ -397,14 +442,11 @@
   }
 
 
-  /* 按 ESC 關閉燈箱 */
   document.addEventListener('keydown', (event) => {
-
     if (
       event.key === 'Escape' &&
       lightbox.classList.contains('show')
     ) {
-
       lightbox.classList.remove('show');
       lightbox.classList.remove('zoom-mode');
 
@@ -415,8 +457,10 @@
 
       document.body.style.overflow = '';
     }
-
   });
+
+
+  renderLibrary();
 </script>
 </body>
 </html>
