@@ -277,10 +277,8 @@
       grouped[item.category].push(item);
     });
 
-    Object.values(grouped).forEach((items) => {
-  items.sort((a, b) => {
-    return new Date(b.date) - new Date(a.date);
-  });
+Object.values(grouped).forEach((items) => {
+  items.sort((a, b) => new Date(b.date) - new Date(a.date));
 });
 
     Object.entries(grouped).forEach(([category, items]) => {
