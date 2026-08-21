@@ -251,36 +251,16 @@
 
 <script>
   const questions = [
-    {
-      title: "K-Fold vs LOOCV",
-      author: "Tina",
-      date: "2026/08/21",
-      category: "模型評估與驗證",
-      tags: ["交叉驗證", "模型評估", "易混淆"],
-      image: "images/2026-08-21-kfold-loocv.png",
-      quizUrl: "https://claude.ai/public/artifacts/499711c7-bd1d-448d-8d64-9f49c0481c5d"
-    },
-
-    {
-      title: "混淆矩陣",
-      author: "待補",
-      date: "待補",
-      category: "模型評估與驗證",
-      tags: ["分類模型", "TP TN FP FN", "模型評估"],
-      image: "",
-      quizUrl: ""
-    },
-
-    {
-      title: "SMOTE",
-      author: "待補",
-      date: "待補",
-      category: "資料處理與機器學習",
-      tags: ["資料不平衡", "機器學習"],
-      image: "",
-      quizUrl: ""
-    }
-  ];
+  {
+    title: "K-Fold vs LOOCV",
+    author: "Tina",
+    date: "2026-08-21",
+    category: "模型評估與驗證",
+    tags: ["交叉驗證", "模型評估", "易混淆"],
+    image: "images/2026-08-21-kfold-loocv.png",
+    quizUrl: "https://claude.ai/public/artifacts/499711c7-bd1d-448d-8d64-9f49c0481c5d"
+  }
+];
 
 
   const library = document.getElementById('quiz-library');
@@ -297,6 +277,11 @@
       grouped[item.category].push(item);
     });
 
+    Object.values(grouped).forEach((items) => {
+  items.sort((a, b) => {
+    return new Date(b.date) - new Date(a.date);
+  });
+});
 
     Object.entries(grouped).forEach(([category, items]) => {
       const sectionTitle = document.createElement('h2');
@@ -364,7 +349,7 @@
 
           <div class="meta">
             出題者：${item.author}<br>
-            日期：${item.date}
+            日期：${item.date.replaceAll('-', '/')}
           </div>
 
           <div>
