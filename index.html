@@ -154,6 +154,7 @@
   max-width: 1600px;
 }
 
+/* 燈箱圖片 */
 .lightbox-content img {
   width: 100%;
   max-height: 94vh;
@@ -161,6 +162,10 @@
   display: block;
   border-radius: 12px;
   background: white;
+
+  cursor: zoom-in;
+  transition: transform 0.25s ease;
+  transform-origin: top center;
 }
 
 .lightbox-close {
@@ -194,12 +199,6 @@
     height: 38px;
   }
 }
-/* 燈箱圖片可再次放大 */
-.lightbox-content img {
-  cursor: zoom-in;
-  transition: transform 0.25s ease;
-  transform-origin: top center;
-}
 
 /* 放大狀態 */
 .lightbox-content img.zoomed {
@@ -217,7 +216,7 @@
 /* 手機版不要放得太誇張 */
 @media (max-width: 600px) {
   .lightbox-content img.zoomed {
-    transform: scale(1.5);
+    transform: scale(1.2);
   }
 }
   </style>
@@ -227,7 +226,7 @@
 
   <header>
     <h1>iPAS AI應用規劃師 每日一詞練習題庫</h1>
-    <p>彙整360d才庫 iPAS AI黃金考證班的每日一詞 (Tina的網頁製作練習)</p>
+    <p>彙整 360d才庫 iPAS AI黃金考證班群組中，由 Ken 老師與學長姐分享的每日一詞（Tina 的網頁製作練習）</p>
   </header>
 
   <main>
@@ -258,11 +257,12 @@
     <span class="tag">易混淆</span>
   </div>
 
-  <a class="button"
-     href="https://claude.ai/public/artifacts/499711c7-bd1d-448d-8d64-9f49c0481c5d"
-     target="_blank">
-    開始練習
-  </a>
+<a class="button"
+   href="https://claude.ai/public/artifacts/499711c7-bd1d-448d-8d64-9f49c0481c5d"
+   target="_blank"
+   rel="noopener noreferrer">
+  開始練習
+</a>
 
 
 </div>
