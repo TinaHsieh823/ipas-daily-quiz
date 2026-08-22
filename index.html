@@ -241,6 +241,12 @@
   outline: 2px solid #7fa281;
   outline-offset: 2px;
 }
+
+  .search-count {
+  margin-top: 10px;
+  color: #5f6f5f;
+  font-size: 1rem;
+}
     
   </style>
 </head>
@@ -259,6 +265,8 @@
     placeholder="搜尋主題、分類、標籤或出題者..."
     aria-label="搜尋每日一詞"
   >
+
+  <div id="search-count" class="search-count"></div>
 </div>
   
 <main id="quiz-library"></main>
@@ -323,6 +331,7 @@
   
   const library = document.getElementById('quiz-library');
   const searchInput = document.getElementById('search-input');
+  const searchCount = document.getElementById('search-count');
   function createCard(item) {
   const card = document.createElement('div');
   card.className = 'card';
@@ -396,6 +405,33 @@ const filteredQuestions = questions.filter((item) => {
   return searchableText.includes(keyword);
 });
 
+    if (filteredQuestions.length === 0) {
+  const emptyMessage = document.createElement('div');
+
+  emptyMessage.style.padding = '40px 20px';
+  emptyMessage.style.textAlign = 'center';
+  emptyMessage.style.color = '#5f6f5f';
+  emptyMessage.style.fontSize = '1.1rem';
+
+  emptyMessage.innerHTML = `
+    <p style="margin:0 0 8px;font-size:1.25rem;font-weight:700;">
+      找不到符合的每日一詞
+    </p>
+    <p style="margin:0;">
+      試試其他主題、標籤或出題者名稱。
+    </p>
+  `;
+
+  library.appendChild(emptyMessage);
+  return;
+}
+
+if (keyword) {
+  searchCount.textContent = `找到 ${filteredQuestions.length} 題`;
+} else {
+  searchCount.textContent = `目前共 ${questions.length} 題每日一詞`;
+}
+    
   /* =========================
      最新每日一詞
      ========================= */
