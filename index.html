@@ -220,6 +220,28 @@
     transform: scale(1.2);
   }
 }
+
+    .search-wrap {
+  width: min(1100px, 92%);
+  margin: 32px auto 0;
+}
+
+.search-wrap input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid #cbd8c9;
+  border-radius: 10px;
+  font-size: 1.05rem;
+  font-family: inherit;
+  color: #263126;
+  background: white;
+}
+
+.search-wrap input:focus {
+  outline: 2px solid #7fa281;
+  outline-offset: 2px;
+}
+    
   </style>
 </head>
 
@@ -230,6 +252,15 @@
     <p>彙整 360d才庫 iPAS AI黃金考證班群組中，由 Ken 老師與學長姐分享的每日一詞（Tina 的網頁製作練習）</p>
   </header>
 
+<div class="search-wrap">
+  <input
+    id="search-input"
+    type="search"
+    placeholder="搜尋主題、分類、標籤或出題者..."
+    aria-label="搜尋每日一詞"
+  >
+</div>
+  
 <main id="quiz-library"></main>
 
   <footer>
@@ -291,6 +322,7 @@
 ];
   
   const library = document.getElementById('quiz-library');
+  const searchInput = document.getElementById('search-input');
   function createCard(item) {
   const card = document.createElement('div');
   card.className = 'card';
@@ -347,7 +379,22 @@
   return card;
 }
 
-  function renderLibrary() {
+  function renderLibrary(filterText = '') {
+    library.innerHTML = '';
+    const keyword = filterText.trim().toLowerCase();
+
+const filteredQuestions = questions.filter((item) => {
+  const searchableText = [
+    item.title,
+    item.author,
+    item.category,
+    ...item.tags
+  ]
+    .join(' ')
+    .toLowerCase();
+
+  return searchableText.includes(keyword);
+});
 
   /* =========================
      最新每日一詞
@@ -364,7 +411,7 @@
   latestGrid.className = 'card-grid';
 
 
-  const latestQuestions = [...questions]
+  const latestQuestions = [...filteredQuestions]
     .sort((a, b) => new Date(b.date) - new Date(a.date))
     .slice(0, 3);
 
@@ -385,7 +432,7 @@
   const grouped = {};
 
 
-  questions.forEach((item) => {
+  filteredQuestions.forEach((item) => {
     if (!grouped[item.category]) {
       grouped[item.category] = [];
     }
@@ -501,6 +548,9 @@
     }
   });
 
+  searchInput.addEventListener('input', () => {
+  renderLibrary(searchInput.value);
+});
 
   renderLibrary();
 </script>
